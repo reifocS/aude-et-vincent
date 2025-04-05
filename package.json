@@ -1,0 +1,13 @@
+{
+    "name": "wedding-announcement",
+    "version": "1.0.0",
+    "description": "Wedding announcement website",
+    "source": "index.html",
+    "scripts": {
+        "start": "parcel",
+        "build": "parcel build"
+    },
+    "devDependencies": {
+        "parcel": "^2.9.3"
+    }
+}

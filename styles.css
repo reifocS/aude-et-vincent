@@ -1,0 +1,132 @@
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Cormorant Garamond", serif;
+  line-height: 1.6;
+  color: #5a5a5a;
+  background-color: #faf9f7;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+  font-family: "Dancing Script", cursive;
+  font-weight: 700;
+  color: #9a8478;
+}
+
+h1 {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* Sections */
+header {
+  margin-bottom: 4rem;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #9a8478;
+}
+
+.announcement {
+  margin-bottom: 4rem;
+  padding: 2rem 0;
+  border-top: 1px solid #e8e1d9;
+  border-bottom: 1px solid #e8e1d9;
+}
+
+.date-location {
+  margin-bottom: 2rem;
+}
+
+.date,
+.location {
+  margin-bottom: 2rem;
+}
+
+.message {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.rsvp {
+  margin-bottom: 4rem;
+}
+
+.contact {
+  font-style: italic;
+}
+
+footer {
+  font-style: italic;
+  color: #9a8478;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 16px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+}
