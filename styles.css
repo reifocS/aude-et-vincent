@@ -72,13 +72,19 @@ header {
 
 .date,
 .location {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .message {
   font-size: 1.2rem;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.civil {
+  margin-bottom: 4rem;
+  padding: 0 0 2rem 0;
+  border-bottom: 1px solid #e8e1d9;
 }
 
 .rsvp {
