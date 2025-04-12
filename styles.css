@@ -15,7 +15,7 @@ body {
   color: #333;
   background-color: #faf9f7;
   font-size: 18px;
-  background-image: url("/faire-part.png");
+  background-image: url("/AM_FP_Mariage-Portrait-Romantique-Aude_Recto_RVB_26032025_856019355552876\ \(3\).jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -164,4 +164,11 @@ footer {
 
 .navbar a:hover {
   text-decoration: underline;
+}
+
+.domaine-image {
+  width: 100%;
+  height: auto;
+  max-width: 800px;
+  margin: 0 auto;
 }
