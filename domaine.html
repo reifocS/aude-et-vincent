@@ -6,10 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hébergement – Aude & Vincent</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+        /* Scroll-snap carousel styles with visible scrollbar */
+        .scroll-carousel {
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-container {
+            display: flex;
+            width: 100%;
+            overflow-x: auto;
+            /* Horizontal scroll enabled */
+            scroll-snap-type: x mandatory;
+            /* Scrollbar is now visible */
+            scroll-behavior: smooth;
+            /* Smooth scrolling */
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            min-width: 100%;
+            /* Ensure each slide takes full width */
+            scroll-snap-align: start;
+            height: 400px;
+            /* Fixed height instead of padding technique */
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Images cover their containers without distortion */
+            display: block;
+            /* Ensure images are block elements */
+        }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
@@ -22,17 +59,26 @@
             </p>
         </section>
 
-        <section class="gallery">
-            <!-- You can add image tags like this later:
-      <img src="images/photo1.jpg" alt="Photo 1">
-      -->
-            <img src="images/20250412_092555.jpg" alt="Domaine du Parc" class="domaine-image">
-            <img src="images/20250412_095808.jpg" alt="Domaine du Parc" class="domaine-image">
-            <img src="images/20250412_095901 (1).jpg" alt="Domaine du Parc" class="domaine-image">
-            <img src="images/parking.jpg" alt="Domaine du Parc" class="domaine-image">
-            <footer>
-                <p><a href="index.html">← Retour à l’accueil</a></p>
-            </footer>
+        <div class="scroll-carousel">
+            <div class="carousel-container">
+                <div class="carousel-slide">
+                    <img src="images/20250412_092555.jpg" alt="Domaine du Parc" loading="eager">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/20250412_095808.jpg" alt="Domaine du Parc" loading="lazy">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/20250412_095901 (1).jpg" alt="Domaine du Parc" loading="lazy">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/parking.jpg" alt="Domaine du Parc" loading="lazy">
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><a href="index.html">← Retour à l'accueil</a></p>
+        </footer>
     </div>
 </body>
 
