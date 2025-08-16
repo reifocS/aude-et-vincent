@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Dîner Opéra</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            padding: 20px;
+            color: #2c2c2c;
+            line-height: 1.6;
+        }
+
+        .menu-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-image: url('romantique.jpg');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .menu-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #2c2c2c;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .ornament {
+            font-size: 24px;
+            color: #d4af37;
+            margin: 20px 0;
+        }
+
+        .menu-content {
+            padding: 60px 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .course {
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .course-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: #8B7355;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .course-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background: #d4af37;
+        }
+
+        .dish-name {
+            font-size: 22px;
+            color: #2c2c2c;
+            margin: 15px 0 10px 0;
+            font-weight: 400;
+        }
+
+        .dish-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .dish-description span {
+            display: block;
+            margin: 3px 0;
+        }
+
+        .note {
+            font-style: italic;
+            color: #8B7355;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            color: #d4af37;
+            font-size: 16px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .couple-names {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #2c2c2c;
+            letter-spacing: 2px;
+        }
+
+        .vegetarian-section {
+            padding: 25px 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vegetarian-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .vegetarian-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: #8B7355;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .ornament-small {
+            font-size: 16px;
+            color: #d4af37;
+        }
+
+        .vegetarian-content {
+            text-align: center;
+        }
+
+        .vegetarian-course {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .veg-course-title {
+            font-weight: 400;
+            color: #8B7355;
+            margin-right: 8px;
+        }
+
+        .veg-dish {
+            color: #2c2c2c;
+            font-style: italic;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #d4af37;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #b8941f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+
+        @media print {
+            :root {
+                --print-base-size: 12px;
+                --print-title-size: 20px;
+                --print-subtitle-size: 14px;
+                --print-ornament-size: 16px;
+                --print-course-title-size: 15px;
+                --print-dish-name-size: 15px;
+                --print-dish-desc-size: 12px;
+                --print-divider-size: 12px;
+                --print-couple-size: 18px;
+                --print-veg-title-size: 14px;
+                --print-veg-course-size: 14px;
+                --print-note-size: 10px;
+                --print-margin: 5mm;
+                --print-padding-sm: 8px;
+                --print-padding-md: 12px;
+                --print-padding-lg: 15px;
+                --print-padding-vertical: 40px;
+            }
+
+            .print-button {
+                display: none;
+            }
+
+            @page {
+                size: A5;
+                margin: var(--print-margin);
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                font-size: var(--print-base-size);
+                margin: 0;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .menu-container {
+                box-shadow: none;
+                page-break-inside: avoid;
+                max-width: 100%;
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background-image: url('romantique.jpg') !important;
+                background-size: 100% 100% !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .header {
+                padding: var(--print-padding-vertical) var(--print-padding-sm) var(--print-padding-md) var(--print-padding-sm);
+            }
+
+            .title {
+                font-size: var(--print-title-size);
+                margin-bottom: 8px;
+                letter-spacing: 2px;
+            }
+
+            .subtitle {
+                font-size: var(--print-subtitle-size);
+            }
+
+            .ornament {
+                font-size: var(--print-ornament-size);
+                margin: 12px 0;
+            }
+
+            .menu-content {
+                padding: var(--print-padding-vertical) var(--print-padding-lg);
+                flex: 0 1 auto;
+            }
+
+            .course {
+                margin-bottom: var(--print-padding-md);
+            }
+
+            .course-title {
+                font-size: var(--print-course-title-size);
+                margin-bottom: 8px;
+                letter-spacing: 2px;
+            }
+
+            .dish-name {
+                font-size: var(--print-dish-name-size);
+                margin: 8px 0 6px 0;
+            }
+
+            .dish-description {
+                font-size: var(--print-dish-desc-size);
+                line-height: 1.4;
+            }
+
+            .divider {
+                margin: 12px 0;
+                font-size: var(--print-divider-size);
+            }
+
+            .footer {
+                padding: var(--print-padding-md) var(--print-padding-sm) var(--print-padding-vertical) var(--print-padding-sm);
+            }
+
+            .couple-names {
+                font-size: var(--print-couple-size);
+            }
+
+            .vegetarian-section {
+                padding: var(--print-padding-md) var(--print-padding-lg);
+                flex: 0 0 auto;
+            }
+
+            .vegetarian-title {
+                font-size: var(--print-veg-title-size);
+                margin-top: 8px;
+            }
+
+            .vegetarian-course {
+                margin: 6px 0;
+                font-size: var(--print-veg-course-size);
+            }
+
+            .ornament-small {
+                font-size: var(--print-veg-course-size);
+            }
+
+            .note {
+                font-size: var(--print-note-size);
+                margin-top: 4px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="print-button" onclick="window.print()">Imprimer Menu</button>
+    <div class="menu-container">
+        <div class="menu-content">
+            <div class="course">
+                <h2 class="course-title">ENTRÉE</h2>
+                <h3 class="dish-name">Tulipe de Saint-Jacques & Gambas</h3>
+                <p class="dish-description">
+                    <span>Julienne de légumes croquants</span>
+                    <span>Sauce Champagne</span>
+                </p>
+                <div class="divider" style="margin: 8px 0; font-size: 14px;">ou</div>
+                <h3 class="dish-name">Mille-feuille de légumes</h3>
+            </div>
+
+            <div class="divider">✦ ✦ ✦</div>
+
+            <div class="course">
+                <h2 class="course-title">PLAT PRINCIPAL</h2>
+                <h3 class="dish-name">Pavé de Veau aux Morilles</h3>
+                <p class="dish-description">
+                    <span>Moelleux de pomme de terre</span>
+                    <span>Tomates grappes rôties</span>
+                    <span>Poêlée de champignons des bois</span>
+                </p>
+                <div class="divider" style="margin: 8px 0; font-size: 14px;">ou</div>
+                <h3 class="dish-name">Risotto aux asperges</h3>
+            </div>
+
+            <div class="divider">✦ ✦ ✦</div>
+
+            <div class="course">
+                <h2 class="course-title">FROMAGE</h2>
+                <h3 class="dish-name">Assiette Fromagère</h3>
+                <p class="dish-description">
+                    <span>Brie & Comté</span>
+                    <span>Jeunes pousses de salade</span>
+                    <span>Vinaigrette balsamique</span>
+                </p>
+            </div>
+
+            <div class="divider">✦ ✦ ✦</div>
+
+            <div class="course">
+                <h2 class="course-title">DESSERT</h2>
+                <h3 class="dish-name">Pièce Montée & Mignardises</h3>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</body>
+
+</html>
