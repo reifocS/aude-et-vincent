@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printable Duo Labels</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(2, 85mm);
+            gap: 0;
+            max-width: 170mm;
+            margin: 0 auto;
+        }
+
+        .card {
+            width: 85mm;
+            height: 40mm;
+            border: 1px solid #333;
+            border-radius: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            text-align: left;
+            font-size: 20px;
+            font-weight: bold;
+            background: white;
+            padding: 10px;
+            page-break-inside: avoid;
+            margin: 0;
+            box-sizing: border-box;
+            gap: 10px;
+        }
+
+        .card-image {
+            /* width: 80px; */
+            height: 35mm;
+            /* height: 120px; */
+            /* border-radius: 50%; */
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card.front {
+            background: white;
+            color: black;
+        }
+
+        .card.back {
+            background: white;
+            color: black;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .card-container {
+                gap: 0;
+                max-width: none;
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .card {
+                margin: 0;
+                width: 50vw;
+                height: 40mm;
+            }
+
+            @page {
+                margin: 0;
+                size: A4 landscape;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="card-container" id="cardContainer">
+    </div>
+
+    <script>
+        // Your data from the two CSV files combined and formatted as a JavaScript array of objects
+        const duos = [
+            { front: 'Mickey', back: 'Trouves Minnie', image: 'https://static.wikia.nocookie.net/disney/images/2/2e/Disney_Mickey_Mouse.png/revision/latest/thumbnail/width/360/height/360?cb=20250301192111' },
+            { front: 'Minnie', back: 'Trouves Mickey', image: 'https://static.vecteezy.com/ti/vecteur-libre/p1/50035558-mignonne-minnie-souris-gratuit-vectoriel.jpg' },
+            { front: 'Sam', back: 'Trouves Clover et Alex', image: 'https://i-mom.unimedias.fr/2020/09/16/sam.jpg?auto=format%2Ccompress&crop=faces&cs=tinysrgb&fit=max&w=1050' },
+            { front: 'Clover', back: 'Trouves Sam et Alex', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB930VvIlCeKYohT2zlEozjSNB8rjNVi-c6w&s' },
+            { front: 'Alex', back: 'Trouves Sam et Clover', image: 'https://68.media.tumblr.com/18a1521a32c40d01c4d8c7aaa2789203/tumblr_no1fgv2NZd1s4cb8go8_400.jpg' },
+            { front: 'Dora', back: 'Trouves Babouche', image: 'https://m.media-amazon.com/images/S/pv-target-images/dedb0564c0924ecd57846e725516abdc65c0998e0ebf15808c82a1039eedfe12.jpg' },
+            { front: 'Babouche', back: 'Trouves Dora', image: 'https://static.wikia.nocookie.net/epicpixelbattles/images/7/70/Babouche.png/revision/latest/thumbnail/width/360/height/450?cb=' },
+            { front: 'Adam', back: 'Trouves Eve', image: 'https://www.slate.fr/uploads/store/story_112899/medium_landscape_112899.jpg' },
+            { front: 'Eve', back: 'Trouves Adam', image: 'https://www.slate.fr/uploads/store/story_112899/medium_landscape_112899.jpg' },
+            { front: 'La belle', back: 'Trouves La bête', image: 'https://static.wikia.nocookie.net/heroes-fr/images/4/49/F3683a6a2cc65cacd525c77a682c3e00.png/revision/latest?cb=20200905155331&path-prefix=fr' },
+            { front: 'La bête', back: 'Trouves La belle', image: 'https://www.cdiscount.com/pdt2/6/3/5/1/700x700/hab4007176124635/rw/figurines-personnages-12463-walt-belle-bete-figu.jpg' },
+            { front: 'Batman', back: 'Trouves Robin', image: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1500x1500/products/86925/86478/Batman_The_Dark_Knight_Cardboard_Cutout_DC_Comics_style_buy_now_at_stastills_(Copy)__33931__68610.1394515740.jpg?c=2' },
+            { front: 'Robin', back: 'Trouves Batman', image: 'https://www.mdcu-comics.fr/uploads/encyclo/images/2015/09/21/encyclo_illustre_1333093794.jpg' },
+            { front: 'La fée clochette', back: 'Trouves Peter Pan', image: 'https://atelier-broderie-diamant.fr/cdn/shop/products/broderie-diamant-la-fee-clochette-atelier-broderie-diamant_1024x1024.jpg?v=1587279339' },
+            { front: 'Peter Pan', back: 'Trouves La fée clochette', image: 'https://static.wikia.nocookie.net/charactercommunity/images/f/f8/Peter_Pan_Transparent.png/revision/latest?cb=20200309163115' },
+            { front: 'Rox', back: 'Trouves Rouky', image: "https://static.wikia.nocookie.net/lemondededisney/images/d/d6/Rox_%281%29.png/revision/latest?cb=20241129184657&path-prefix=fr" },
+            { front: 'Rouky', back: 'Trouves Rox', image: 'https://cinefilms-planet.fr/wp-content/uploads/2017/12/rouky-personnage-rox-rouky-02.jpg' },
+            { front: 'Sherlock Holmes', back: 'Trouves Watson', image: 'https://i.redd.it/veuahdwjhksa1.png' },
+            { front: 'Watson', back: 'Trouves Sherlock Holmes', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaHU0t4NubOPstxk00BVLDQ37asW0j1d4qnQ&s' },
+            { front: 'Starcky', back: 'Trouves Hutch', image: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1500x1500/products/65005/64819/ss3399955_-_photograph_of_paul_michael_glaser_as_david_starsky_from_starsky_and_hutch_available_in_4_sizes_framed_or_unframed_buy_now_at_starstills__60376__00614.1394498919.jpg?c=2' },
+            { front: 'Hutch', back: 'Trouves Starcky', image: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1500x1500/products/67504/67313/ss3454295_-_photograph_of_david_soul_as_det_ken_hutch_hutchinson_from_starsky_and_hutch_available_in_4_sizes_framed_or_unframed_buy_now_at_starstills__44193__01714.1394500884.jpg?c=2' },
+            { front: 'Laurel', back: 'Trouves Hardy', image: 'https://upload.wikimedia.org/wikipedia/commons/3/34/Stan_Laurel_c1920.jpg' },
+            { front: 'Hardy', back: 'Trouves Laurel', image: 'https://beauchumps.wordpress.com/wp-content/uploads/2018/12/Babe.jpg?w=640' },
+            { front: 'Fiona', back: 'Trouves Shrek', image: 'https://ih1.redbubble.net/image.4688906092.6558/flat,750x,075,f-pad,750x1000,f8f8f8.jpg' },
+            { front: 'Shrek', back: 'Trouves Fiona', image: 'data:image/jpeg;base64,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' },
+            { front: 'Mario', back: 'Trouves Luigi', image: 'https://mario.nintendo.com/static/017e65ba462a05886d43d755c2322b34/7e15c/mario.png' },
+            { front: 'Luigi', back: 'Trouves Mario', image: 'https://mario.wiki.gallery/images/7/76/SMPJ_Luigi.png' },
+            { front: 'Harry Potter', back: 'Trouves Hermione Granger et Ron Wisley', image: 'https://hips.hearstapps.com/hmg-prod/images/hp_cropped_gettyimages-113941726.jpg?resize=980:*' },
+            { front: 'Hermione Granger', back: 'Trouves Harry Potter et Ron Wisley', image: 'https://cdn.costumewall.com/wp-content/uploads/2015/09/hermione-granger.jpg' },
+            { front: 'Ron Wisley', back: 'Trouves Harry Potter et Hermione Granger', image: 'https://static.wikia.nocookie.net/ashes_of_chaos/images/5/55/Ronald.jpg/revision/latest?cb=20200730144844' },
+            { front: 'Tarzan', back: 'Trouves Jane', image: 'https://static.wikia.nocookie.net/disneyprince/images/e/e2/Tarzan_Character.png/revision/latest/scale-to-width-down/1236?cb=20220120232018' },
+            { front: 'Jane', back: 'Trouves Tarzan', image: 'https://static.wikia.nocookie.net/charactercommunity/images/3/30/09_Jane_Porter.png/revision/latest/thumbnail/width/360/height/360?cb=20190610024314' },
+            { front: 'Tic', back: 'Trouves Tac', image: 'https://static.wikia.nocookie.net/kingdomhearts/images/3/35/Tic_KHIII.png/revision/latest?cb=20181215164711&path-prefix=fr' },
+            { front: 'Tac', back: 'Trouves Tic', image: 'https://static.wikia.nocookie.net/kingdomhearts/images/2/2a/Tac_KHIII.png/revision/latest?cb=20181215164711&path-prefix=fr' },
+            { front: 'Tintin', back: 'Trouves Milou', image: 'https://static.wikia.nocookie.net/tintin/images/9/9e/Untitled498_20250113233239.png/revision/latest?cb=20250114064807' },
+            { front: 'Milou', back: 'Trouves Tintin', image: 'https://i2.wp.com/tintinomania.com/wp-content/uploads/2018/07/milou-1.jpg?fit=146%2C244&ssl=1' },
+            { front: 'Roméo', back: 'Trouves Juliette', image: 'https://ih1.redbubble.net/image.3417800780.0221/flat,750x,075,f-pad,750x1000,f8f8f8.jpg' },
+            { front: 'Juliette', back: 'Trouves Roméo', image: 'https://media.vogue.fr/photos/6188f7403bb4a4a442a65dc4/16:9/w_3519,h_1979,c_limit/MSDROAN_EC018.jpg' },
+            { front: 'Omar', back: 'Trouves Fred', image: 'https://resize.elle.fr/original/var/plain_site/storage/images/loisirs/sorties/news/omar-et-fred-la-fin-du-sav-1899478/20436108-1-fre-FR/Omar-et-Fred-la-fin-du-SAV.jpg' },
+            { front: 'Fred', back: 'Trouves Omar', image: 'https://resize.elle.fr/original/var/plain_site/storage/images/loisirs/sorties/news/omar-et-fred-la-fin-du-sav-1899478/20436108-1-fre-FR/Omar-et-Fred-la-fin-du-SAV.jpg' },
+            { front: 'Cleopatre', back: 'Trouves Cesar', image: 'https://i.pinimg.com/474x/14/dd/65/14dd6556c1ea7be189cda31d25c41179.jpg' },
+            { front: 'Cesar', back: 'Trouves Cleopatre', image: 'https://media.lesechos.com/api/v1/images/view/5ee38d873e45467e411acd3f/1280x720/35f6e98e-01.jpg' },
+            { front: 'Obelix', back: 'Trouves Asterix', image: 'https://www.maisondelapresse.com/media/wysiwyg/Asterix_Obelix_Brussels-cropped2.png' },
+            { front: 'Asterix', back: 'Trouves Obelix', image: 'https://static.wikia.nocookie.net/bdpedia/images/8/8f/Latest.jpg/revision/latest?cb=20200818083915&path-prefix=fr' },
+            { front: 'Dupont', back: 'Trouves Dupont', image: 'https://cdn001.tintin.com/public/tintin/img/quiz/6/dupondt.png' },
+            { front: 'Dupont', back: 'Trouves Dupont', image: 'https://cdn001.tintin.com/public/tintin/img/quiz/6/dupondt.png' },
+            { front: 'Père Noël', back: 'Trouves la mère Noël', image: 'https://www.123-stickers.com/8344-large_default/autocollant-pere-noel-et-cadeaux.jpg' },
+            { front: 'la mère Noël', back: 'Trouves Père Noël', image: 'https://www.joyeux-noel.net/wp-content/uploads/2023/03/mere-noel.jpg' },
+            { front: 'Olive', back: 'Trouves Tom', image: 'https://yt3.googleusercontent.com/L7Sp53JB5r4b7K56Z-YL_uIlwYB2DN26Ti8O01ALjz96YA8lsnBeoDMbi9nO47WxmrZvNegq=s900-c-k-c0x00ffffff-no-rj' },
+            { front: 'Tom', back: 'Trouves Olive', image: 'https://yt3.googleusercontent.com/L7Sp53JB5r4b7K56Z-YL_uIlwYB2DN26Ti8O01ALjz96YA8lsnBeoDMbi9nO47WxmrZvNegq=s900-c-k-c0x00ffffff-no-rj' },
+            { front: 'Bob l\'éponge', back: 'Trouves Patrick', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/SpongeBob_SquarePants_character.png/250px-SpongeBob_SquarePants_character.png' },
+            { front: 'Patrick', back: 'Trouves Bob l\'éponge', image: 'https://static.wikia.nocookie.net/mugenpedia/images/f/f8/200px-Patrick_Star.svg.png/revision/latest?cb=20130812201248&path-prefix=fr' },
+            { front: 'Pumba', back: 'Trouves Timon', image: 'https://deco-de-heros.com/91947-thickbox_default/masque-en-carton-disney-le-roi-lion-pumba-27-cm.webp' },
+            { front: 'Timon', back: 'Trouves Pumba', image: 'https://www.123-stickers.com/2566-thickbox/timon-2.jpg' },
+            { front: 'Chewbacca', back: 'Trouves Han Solo', image: 'https://static.wikia.nocookie.net/frstarwars/images/4/48/Chewbacca_TLJ.png/revision/latest?cb=20221112204641' },
+            { front: 'Han Solo', back: 'Trouves Chewbacca', image: 'https://img.lemde.fr/2015/12/09/12/0/3285/2190/664/0/75/0/c177bdb_11991-nyz8pm.JPG' },
+            { front: 'Pikachu', back: 'Trouves Sacha', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPR33b3jFTRjrjnJvl5wPXkYEIl16zKDj5Sw&s' },
+            { front: 'Sacha', back: 'Trouves Pikachu', image: 'https://laboitedemangas.wordpress.com/wp-content/uploads/2022/05/quel-age-a-sacha-pokemon-1997.png' },
+            { front: 'Morty', back: 'Trouves Rick', image: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1500x1500/products/90071/97755/Rick-and-Morty-Morty-Smith-Mini-Cardboard-Cutout-buy-now-at-starstills__41893.1678792404.jpg?c=2' },
+            { front: 'Rick', back: 'Trouves Morty', image: 'https://m.media-amazon.com/images/I/61hLVV-0VWL.jpg' },
+            { front: 'Bianca', back: 'Trouves Bernard', image: 'https://static.wikia.nocookie.net/lemondededisney/images/2/27/Miss_Bianca_DMK.webp/revision/latest?cb=20230110194656&path-prefix=fr' },
+            { front: 'Bernard', back: 'Trouves Bianca', image: 'https://static.wikia.nocookie.net/disney/images/e/e5/Clipbern.gif/revision/latest/scale-to-width-down/250?cb=20211214233942' }
+        ];
+
+        // Generate cards for printing
+        const cardContainer = document.getElementById('cardContainer');
+
+        duos.forEach((duo, index) => {
+            // Create front card
+            const frontCard = document.createElement('div');
+            frontCard.className = 'card front';
+
+            const imageUrl = duo.image || `https://via.placeholder.com/80x80/cccccc/666666?text=${encodeURIComponent(duo.front.charAt(0))}`;
+
+            frontCard.innerHTML = `
+                <div class="card-content">
+                    <div>${duo.front}</div>
+                    <div style="font-size: 14px; opacity: 0.7; margin-top: 5px;">${duo.back}</div>
+                </div>
+                <img src="${imageUrl}" alt="${duo.front}" class="card-image">
+            `;
+            cardContainer.appendChild(frontCard);
+
+        });
+
+    </script>
+
+</body>
+
+</html>
